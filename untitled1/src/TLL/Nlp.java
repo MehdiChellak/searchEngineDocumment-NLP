@@ -1,4 +1,5 @@
 package TLL;
+import org.python.antlr.ast.Str;
 import org.tartarus.snowball.ext.arabicStemmer;
 import org.tartarus.snowball.ext.englishStemmer;
 import safar.basic.morphology.stemmer.impl.KhojaStemmer;
@@ -12,8 +13,11 @@ import java.util.Scanner;
 public class Nlp {
 
     private Map<String, Integer> stopWords = new HashMap<>();
-    public Nlp() throws FileNotFoundException {
+    private String pathStopWords;
+    public Nlp(String pathStopWords) throws FileNotFoundException {
+        this.pathStopWords = pathStopWords;
         this.stopWords();
+
     }
 
 
@@ -49,8 +53,16 @@ public class Nlp {
         return false;
     }
 
+    public String getPathStopWords() {
+        return pathStopWords;
+    }
+
+    public void setPathStopWords(String pathStopWords) {
+        this.pathStopWords = pathStopWords;
+    }
+
     public void stopWords() throws FileNotFoundException {
-        String path ="C:\\Users\\ASUS\\IdeaProjects\\searchEngineDocumment\\untitled1\\asw.txt";
+        String path =this.pathStopWords;
         File fichier = new File(path);
         Scanner myReader = new Scanner(fichier);
         String word=null;

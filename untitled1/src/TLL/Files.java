@@ -13,21 +13,26 @@ import org.tartarus.snowball.ext.englishStemmer;
 import safar.basic.morphology.stemmer.impl.KhojaStemmer;
 
 class GetMapFromFiles {
-    Nlp nlp;
+    private Nlp nlp;
+    private String pathCorpus;
 
     public GetMapFromFiles() throws FileNotFoundException {
-        nlp = new Nlp();
-        this.readFiles();
+
     }
     private Map<String, Map<String, Integer>> bigMap = new HashMap<>();
 
-    // put here you corpus (folder of docs path)
-    String path = "C:\\Users\\ASUS\\Desktop\\corpus\\secondCorpus";
+    public GetMapFromFiles(String pathCorpus, String pathStopWords) throws FileNotFoundException {
+        this.pathCorpus = pathCorpus;
+        nlp = new Nlp(pathStopWords);
+        this.readFiles();
+
+        System.out.println("i am here ");
+    }
 
     public void printBigMap() {System.out.println(bigMap);}
 
     public void readFiles() {
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(path))) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(pathCorpus))) {
             for (Path file : stream) {
                 Map<String, Integer> hmap = this.makeMapForEachFile(file);
                 bigMap.put("" + file.getFileName(), hmap);
@@ -38,7 +43,7 @@ class GetMapFromFiles {
     }
 
     public Map<String, Integer> makeMapForEachFile(Path file) throws FileNotFoundException {
-        File fichier = new File(path + "\\" + file.getFileName());
+        File fichier = new File(pathCorpus + "\\" + file.getFileName());
         Scanner myReader = new Scanner(fichier);
         Map<String, Integer> hmap = new HashMap<>();
         while (myReader.hasNext()) {

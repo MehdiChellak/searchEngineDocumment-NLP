@@ -14,11 +14,14 @@ public class Main {
 
     public Main() throws FileNotFoundException
     {
-        TFIDF tfidf = new TFIDF();
-        this.tfidfMap = tfidf.getTfIdfMap();
-        nlp = new Nlp();
+
     }
 
+    public Main(String pathStopWords, String pathCorpus) throws FileNotFoundException {
+        TFIDF tfidf = new TFIDF(pathCorpus, pathStopWords);
+        this.tfidfMap = tfidf.getTfIdfMap();
+        nlp = new Nlp(pathStopWords);
+    }
 
     public float vecteurNorme (Map<String, Float> map)
     {
@@ -102,10 +105,15 @@ public class Main {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        String motsRechreche = "مجموعات من الجزر كالجزر التابعة لدولة";
-        Main m = new Main();
-
-        m.lancerRecherche(motsRechreche);
+        String motsRecherche = "مجموعات من الجزر كالجزر التابعة لدولة";
+        // path de stop words arabic stop words
+        String pathStopWords = "C:\\Users\\ASUS\\IdeaProjects\\searchEngineDocumment\\untitled1\\asw.txt";
+        // path vers le corpus des documents
+        String pathCorpus = "C:\\Users\\ASUS\\Desktop\\corpus\\secondCorpus";
+        // moteur de recherche
+        Main m = new Main(pathStopWords, pathCorpus);
+        // lancer la recherche
+        m.lancerRecherche(motsRecherche);
 
     }
 }

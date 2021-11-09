@@ -10,8 +10,11 @@ public class TFIDF {
     private Map<String, Float> idfMap = new HashMap<>();
     private int numberOfdocs = 0;
 
-    public TFIDF() throws FileNotFoundException {
-        GetMapFromFiles reader = new GetMapFromFiles();
+
+    public TFIDF(String pathCorpus, String pathStopWords) throws FileNotFoundException {
+
+        GetMapFromFiles reader = new GetMapFromFiles(pathCorpus,pathStopWords);
+
         map = reader.getBigMap();
         this.numberOfdocs = map.size();
         this.tfidf();
@@ -59,13 +62,15 @@ public class TFIDF {
 
     public  void printTfidf()
     {
-        System.out.println("tfdif"+tfIdfMap.entrySet());
-        System.out.println("idf"+idfMap.entrySet());
+        System.out.println("tfdif du corpus : "+tfIdfMap.entrySet());
+        //System.out.println("idf"+idfMap.entrySet());
     }
 
     public static void main(String[] args) throws FileNotFoundException
     {
-        TFIDF tt = new TFIDF();
+        //TFIDF tt = new TFIDF();
     }
+
+
 }
 
