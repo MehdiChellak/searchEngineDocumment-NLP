@@ -1,8 +1,17 @@
 # searchEngineDocumment Search Document engine for Arabic and english languages  from scratch
 ### technologies
+
+## features extraction
   #### java TF-IDF approche 
-  #### KNN
+
+##  Reduction 
   #### CHI2 reduction
-  #### NLP
-  #### k-Means 
+  
+## Machine learning 
+  #### KNN
+  #### k-Means
+  #### naive bayes 
  
+## NLP
+  #### khoja 
+  #### snowman
