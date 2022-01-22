@@ -15,3 +15,10 @@
 ## NLP
   #### khoja 
   #### snowman
+
+
+for more informations
+## Contacts me
+Twitter  [Me](https://twitter.com/sin_moody)
+Linkedin  [Me](https://www.linkedin.com/in/mehdi-chellak-0850631b2/)
+Reddit [Me](https://www.reddit.com/user/moody_sin)
