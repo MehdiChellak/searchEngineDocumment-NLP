@@ -1,4 +1,4 @@
-package TLL;
+package tfidf;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,10 +7,7 @@ import java.nio.file.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-
-import org.tartarus.snowball.ext.arabicStemmer;
-import org.tartarus.snowball.ext.englishStemmer;
-import safar.basic.morphology.stemmer.impl.KhojaStemmer;
+import nlp.Nlp;
 
 class GetMapFromFiles {
     private Nlp nlp;
@@ -21,11 +18,11 @@ class GetMapFromFiles {
     }
     private Map<String, Map<String, Integer>> bigMap = new HashMap<>();
 
-    public GetMapFromFiles(String pathCorpus, String pathStopWords) throws FileNotFoundException {
+    public GetMapFromFiles(String pathCorpus) throws FileNotFoundException {
         this.pathCorpus = pathCorpus;
-        nlp = new Nlp(pathStopWords);
+        nlp = new Nlp();
         this.readFiles();
-        //System.out.println("Mehdi Chellak");
+        System.out.println("Mehdi Chellak");
     }
 
     public void printBigMap() {System.out.println(bigMap);}

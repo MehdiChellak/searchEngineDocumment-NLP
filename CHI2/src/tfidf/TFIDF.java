@@ -1,4 +1,4 @@
-package TLL;
+package tfidf;
 
 import java.io.FileNotFoundException;
 import java.util.HashMap;
@@ -13,8 +13,7 @@ public class TFIDF {
 
     public TFIDF(String pathCorpus, String pathStopWords) throws FileNotFoundException {
 
-        GetMapFromFiles reader = new GetMapFromFiles(pathCorpus,pathStopWords);
-
+        GetMapFromFiles reader = new GetMapFromFiles(pathCorpus);
         map = reader.getBigMap();
         this.numberOfdocs = map.size();
         this.tfidf();
@@ -38,7 +37,7 @@ public class TFIDF {
         {
             mapFloat.put(key, ((float)sousMap.get(key)/ wcd)*idfCalculation(key));
         }
-        this.tfIdfMap.put(doc,mapFloat);
+        this.tfIdfMap.put(doc, mapFloat);
     }
 
     public float idfCalculation(String docword) throws FileNotFoundException {
@@ -64,6 +63,10 @@ public class TFIDF {
     {
         System.out.println("tfdif du corpus : "+tfIdfMap.entrySet());
         //System.out.println("idf"+idfMap.entrySet());
+    }
+
+    public Map<String, Float> getIdfMap() {
+        return idfMap;
     }
 
     public static void main(String[] args) throws FileNotFoundException

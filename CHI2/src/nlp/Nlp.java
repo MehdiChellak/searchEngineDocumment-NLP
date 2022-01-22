@@ -1,4 +1,4 @@
-package TLL;
+package nlp;
 
 import org.tartarus.snowball.ext.arabicStemmer;
 import org.tartarus.snowball.ext.englishStemmer;
@@ -13,13 +13,11 @@ import java.util.Scanner;
 public class Nlp {
 
     private Map<String, Integer> stopWords = new HashMap<>();
-    private String pathStopWords;
-    public Nlp(String pathStopWords) throws FileNotFoundException {
-        this.pathStopWords = pathStopWords;
+    private String pathStopWords = "C:\\Users\\ASUS\\IdeaProjects\\searchEngineDocumment\\untitled1\\asw.txt";
+
+    public Nlp() throws FileNotFoundException {
         this.stopWords();
-
     }
-
 
     public String englishStemmerPorter(String word)
     {

@@ -1,4 +1,4 @@
-package TLL;
+package CHI2;
 
 import nlp.Nlp;
 

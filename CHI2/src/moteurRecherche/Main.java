@@ -1,15 +1,16 @@
-package MoteurRecherche;
+package moteurRecherche;
 
-import TLL.Nlp;
-import TLL.TFIDF;
+import nlp.Nlp;
+import tfidf.TFIDF;
 
 import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Main {
-    private Map<String, Float> tfMotsMap = new HashMap<>();
+    private Map<String, Float> tfidfMotsMap = new HashMap<>();
     private Map<String, Map<String, Float>> tfidfMap;
     private  Map<Float, String> similaire = new HashMap<>();
+    private Map<String, Float> idfMap = new HashMap<>();
     private Nlp nlp;
 
     public Main() throws FileNotFoundException
@@ -20,7 +21,8 @@ public class Main {
     public Main(String pathStopWords, String pathCorpus) throws FileNotFoundException {
         TFIDF tfidf = new TFIDF(pathCorpus, pathStopWords);
         this.tfidfMap = tfidf.getTfIdfMap();
-        nlp = new Nlp(pathStopWords);
+        this.idfMap = tfidf.getIdfMap();
+        nlp = new Nlp();
     }
 
     public float vecteurNorme (Map<String, Float> map)
@@ -38,21 +40,21 @@ public class Main {
         float result = 0;
         for (String doc : tfidfMap.keySet())
         {
-            result = produit2Vect(tfidfMap.get(doc), tfMotsMap)/vecteurNorme(tfidfMap.get(doc))*vecteurNorme(this.tfMotsMap);
-            //System.out.println("result ="+result+" "+doc+" = "+produit2Vect(tfidfMap.get(doc), tfMotsMap)+"*"+vecteurNorme(tfidfMap.get(doc))+"+"+vecteurNorme(this.tfMotsMap));
+            result = produit2Vect(tfidfMap.get(doc), tfidfMotsMap)/vecteurNorme(tfidfMap.get(doc))*vecteurNorme(this.tfidfMotsMap);
+            //System.out.println("result ="+result+" "+doc+" = "+produit2Vect(tfidfMap.get(doc), tfidfMotsMap)+"*"+vecteurNorme(tfidfMap.get(doc))+"+"+vecteurNorme(this.tfidfMotsMap));
             similaire.put(result,doc);
         }
         showTop3Max();
     }
 
-    private float produit2Vect(Map<String, Float> stringFloatMap, Map<String, Float> tfMotsMap)
+    private float produit2Vect(Map<String, Float> docMap, Map<String, Float> tfidfMotsMap)
     {
         float sommeProduits = 0;
-        for (String name : tfMotsMap.keySet())
+        for (String name : tfidfMotsMap.keySet())
         {
-            if(stringFloatMap.containsKey(name))
+            if(docMap.containsKey(name))
             {
-                sommeProduits += stringFloatMap.get(name)*tfMotsMap.get(name);
+                sommeProduits += docMap.get(name)*tfidfMotsMap.get(name);
             }
         }
         return sommeProduits;
@@ -62,22 +64,28 @@ public class Main {
     {
         float wcd = 0;
         String stemer = null;
-        for (String word : mots.toLowerCase().split(" "))
+        for (String word : mots.split(" "))
         {
             wcd += 1;
             stemer = nlp.arabicStemming(word);
             if(!nlp.isStopWord(stemer))
-                if (tfMotsMap.containsKey(stemer))
-                    tfMotsMap.replace(stemer, tfMotsMap.get(stemer) + 1);
+                if (tfidfMotsMap.containsKey(stemer))
+                    tfidfMotsMap.replace(stemer, tfidfMotsMap.get(stemer) + 1);
                  else
-                    tfMotsMap.put(stemer, (float) 1);
+                    tfidfMotsMap.put(stemer, (float) 1);
 
         }
-        for (String key : tfMotsMap.keySet())
+
+        for (String key : tfidfMotsMap.keySet())
         {
-            tfMotsMap.put(key, (float) tfMotsMap.get(key)/ wcd);
+            if (idfMap.containsKey(key))
+            {
+                tfidfMotsMap.put(key, tfidfMotsMap.get(key) / wcd*idfMap.get(key));
+            }else
+                tfidfMotsMap.put(key, (tfidfMotsMap.get(key) / wcd)*0);
         }
-        System.out.println("mots rechrcher"+tfMotsMap.entrySet());
+
+        System.out.println("tfidf mots rechercher"+tfidfMotsMap.entrySet());
     }
     public void showTop3Max()
     {
@@ -91,12 +99,10 @@ public class Main {
                 if(value>max)
                     max = value;
             }
-            System.out.println("le documment "+(4-i)+" = "+similaire.get(max));
+            System.out.println("le documment "+(4-i)+" = "+similaire.get(max)+" degree de :"+max);
             similaire.remove(max);
             i--;
         }
-
-
     }
     public void lancerRecherche(String motsRechreche) {
         createMapForRequestedText(motsRechreche);
@@ -105,7 +111,7 @@ public class Main {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        String motsRecherche = "مجموعات من الجزر كالجزر التابعة لدولة";
+        String motsRecherche = "مستوى حياة ببقية القارات";
         // path de stop words arabic stop words
         String pathStopWords = "C:\\Users\\ASUS\\IdeaProjects\\searchEngineDocumment\\untitled1\\asw.txt";
         // path vers le corpus des documents
@@ -114,6 +120,5 @@ public class Main {
         Main m = new Main(pathStopWords, pathCorpus);
         // lancer la recherche
         m.lancerRecherche(motsRecherche);
-
     }
 }
