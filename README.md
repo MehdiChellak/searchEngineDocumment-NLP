@@ -1,5 +1,5 @@
-# searchEngineDocumment Search Document engine for Arabic and english languages  from scratch
-### technologies
+# searchEngineDocumment Search Document engine for Arabic and english languages from scratch
+
 
 ## features extraction
   #### java TF-IDF approche 
