@@ -1,7 +1,7 @@
 # searchEngineDocumment Search Document engine for Arabic and english languages from scratch
 
 
-## features extraction
+## Features Extraction
   #### java TF-IDF approche 
 
 ##  Reduction 
@@ -18,7 +18,7 @@
 
 
 for more informations
-## Contacts me
+## Contact me
 Twitter  [Me](https://twitter.com/sin_moody)
 Linkedin  [Me](https://www.linkedin.com/in/mehdi-chellak-0850631b2/)
 Reddit [Me](https://www.reddit.com/user/moody_sin)
